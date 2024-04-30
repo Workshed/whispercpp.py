@@ -25,7 +25,7 @@ whisper_clib = ('whisper_clib', {'sources': ['whisper.cpp/ggml.c']})
 
 setup(
     name='whispercpp',
-    version='1.0',
+    version='1.1',
     description='Python bindings for whisper.cpp',
     author='Luke Southam',
     author_email='luke@devthe.com',

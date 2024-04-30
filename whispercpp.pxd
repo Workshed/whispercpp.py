@@ -55,6 +55,7 @@ cdef extern from "whisper.h" nogil:
         _Bool print_realtime
         _Bool print_timestamps
         _Bool token_timestamps
+        _Bool split_on_word
         float thold_pt
         float thold_ptsum
         int max_len

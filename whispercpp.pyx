@@ -75,6 +75,9 @@ cdef whisper_full_params default_params() nogil:
     params.print_realtime = True
     params.print_progress = True
     params.translate = False
+    params.split_on_word = True
+    params.token_timestamps = True
+    params.max_len = 1
     params.language = <const char *> LANGUAGE
     n_threads = N_THREADS
     return params
@@ -119,13 +122,24 @@ cdef class Whisper:
         print("Transcribing..")
         return whisper_full(self.ctx, self.params, &frames[0], len(frames))
     
+    def python_json_dumps(self, data):
+        import json
+        return json.dumps(data)
+
     def extract_text(self, int res):
         print("Extracting text...")
         if res != 0:
             raise RuntimeError
         cdef int n_segments = whisper_full_n_segments(self.ctx)
-        return [
-            whisper_full_get_segment_text(self.ctx, i).decode() for i in range(n_segments)
+        result = [
+            {
+                "content": whisper_full_get_segment_text(self.ctx, i).decode(), 
+                "start_time": str(whisper_full_get_segment_t0(self.ctx, i) / 100), 
+                "end_time": str(whisper_full_get_segment_t1(self.ctx, i) / 100)
+            } 
+            for i in range(n_segments)
         ]
+        return self.python_json_dumps(result)
+
 
 
