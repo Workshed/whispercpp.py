@@ -75,9 +75,11 @@ cdef whisper_full_params default_params() nogil:
     params.print_realtime = True
     params.print_progress = True
     params.translate = False
-    params.split_on_word = True
-    params.token_timestamps = True
-    params.max_len = 1
+    # params.output_jsn = True
+    # params.output_jsn_full = True
+    # params.split_on_word = True
+    # params.token_timestamps = True
+    # params.max_len = 1
     params.language = <const char *> LANGUAGE
     n_threads = N_THREADS
     return params
